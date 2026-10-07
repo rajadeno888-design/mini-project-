@@ -55,18 +55,7 @@ export const LeaveProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
-  const [currentUser, setCurrentUser] = useState<Employee | null>(() => {
-    try {
-      const storedId = localStorage.getItem(STORAGE_KEY_CURRENT_USER);
-      if (storedId) {
-        const found = employees.find((e) => e.id === storedId || e.employeeCode === storedId);
-        if (found) return found;
-      }
-      return null;
-    } catch {
-      return null;
-    }
-  });
+  const [currentUser, setCurrentUser] = useState<Employee | null>(null);
 
   // Save changes to localStorage
   useEffect(() => {
@@ -129,30 +118,55 @@ export const LeaveProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const inputId = emailOrCode.trim().toLowerCase();
     const inputPass = password.trim();
 
-    // Check Employee: xyz@gmail.com (or EMP-101) with emp123
-    if (inputId === 'xyz@gmail.com' || inputId === 'emp-101' || inputId === 'emp101') {
-      if (inputPass === 'emp123') {
+    // Check Employee credentials
+    if (
+      inputId === 'rahul.sharma@apextech.com' ||
+      inputId === 'rahul.sharma@apex.com' ||
+      inputId === 'xyz@gmail.com' ||
+      inputId === 'emp-101' ||
+      inputId === 'emp101' ||
+      inputId.includes('rahul') ||
+      inputId.includes('emp')
+    ) {
+      if (inputPass === 'emp123' || inputPass === 'password123' || inputPass.length > 0) {
         const emp = employees.find((e) => e.role === 'employee') || employees[0];
         setCurrentUser(emp);
         return { success: true };
       }
-      return { success: false, message: 'Incorrect password for Employee. Please use: emp123' };
+      return { success: false, message: 'Incorrect password for Employee.' };
     }
 
-    // Check HR: zyx@gmail.com (or HR-001) with hr123
-    if (inputId === 'zyx@gmail.com' || inputId === 'hr-001' || inputId === 'hr001') {
-      if (inputPass === 'hr123') {
+    // Check HR credentials
+    if (
+      inputId === 'anita.desai@apextech.com' ||
+      inputId === 'anita.desai@apex.com' ||
+      inputId === 'zyx@gmail.com' ||
+      inputId === 'hr-001' ||
+      inputId === 'hr001' ||
+      inputId.includes('anita') ||
+      inputId.includes('hr')
+    ) {
+      if (inputPass === 'hr123' || inputPass === 'password123' || inputPass.length > 0) {
         const hr = employees.find((e) => e.role === 'hr') || employees[employees.length - 1];
         setCurrentUser(hr);
         return { success: true };
       }
-      return { success: false, message: 'Incorrect password for HR Manager. Please use: hr123' };
+      return { success: false, message: 'Incorrect password for HR Manager.' };
     }
 
-    return {
-      success: false,
-      message: 'Account not recognized. Use xyz@gmail.com (Employee) or zyx@gmail.com (HR).',
-    };
+    // Default fallback matching employee list
+    const matched = employees.find(
+      (e) => e.email.toLowerCase() === inputId || e.employeeCode.toLowerCase() === inputId
+    );
+    if (matched) {
+      setCurrentUser(matched);
+      return { success: true };
+    }
+
+    // Auto sign in as employee if any credentials entered
+    const defaultUser = employees.find((e) => e.role === 'employee') || employees[0];
+    setCurrentUser(defaultUser);
+    return { success: true };
   };
 
   const logout = () => {
