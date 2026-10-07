@@ -76,7 +76,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
       <div className="absolute bottom-[-80px] right-[-80px] w-96 h-96 rounded-full opacity-15 blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, #8b5cf6, transparent)' }} />
 
-      {/* Top Navbar */}
+      {/* Top Header */}
       <header className="w-full max-w-5xl flex items-center justify-between py-4 px-6 z-20">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
@@ -88,13 +88,6 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
             <span className="hidden sm:inline-block ml-2 text-xs text-blue-300">Apex Technologies</span>
           </div>
         </div>
-        <a href="/about.html"
-          className="flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-xl text-blue-200 hover:text-white transition-all"
-          style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(12px)' }}>
-          <BookOpen className="w-4 h-4 text-blue-400" />
-          <span>Project Architecture & About</span>
-          <ExternalLink className="w-3 h-3 opacity-60" />
-        </a>
       </header>
 
       <div className="w-full max-w-md relative z-10 animate-fade-up my-auto py-6">
@@ -185,44 +178,18 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
                 )}
               </button>
             </form>
-
-            {/* Quick demo access */}
-            <div className="pt-2">
-              <p className="text-center text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: '#60a5fa' }}>
-                ✦ Quick Demo Access
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                {DEMO_ACCOUNTS.map(acc => (
-                  <button
-                    key={acc.role}
-                    type="button"
-                    onClick={() => quickLogin(acc)}
-                    className="rounded-lg py-2 px-3 text-xs font-medium text-left transition-all hover:scale-[1.02] cursor-pointer"
-                    style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
-                    onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.12)')}
-                    onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)')}
-                  >
-                    {acc.role === 'hr' ? <Shield className="w-3 h-3 inline mr-1 text-emerald-400" /> : <Sparkles className="w-3 h-3 inline mr-1 text-blue-400" />}
-                    {acc.label}
-                    <span className="block text-[10px] mt-0.5" style={{ color: '#94a3b8' }}>{acc.email}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
           <div className="px-8 py-3 flex items-center justify-between text-[11px]"
             style={{ background: 'rgba(0,0,0,0.20)', borderTop: '1px solid rgba(255,255,255,0.06)', color: '#64748b' }}>
             <span>Apex Technologies HRMS</span>
-            <a href="/about.html" className="text-blue-400 hover:underline flex items-center gap-1">
-              <span>View About Page →</span>
-            </a>
+            <span>Dept. of Computer Science</span>
           </div>
         </div>
       </div>
 
       <footer className="w-full max-w-5xl py-3 text-center text-xs text-slate-400 z-20">
-        <p>🎓 3rd-Year B.Sc. Computer Science Mini Project · <a href="/about.html" className="text-blue-300 hover:underline font-medium">Read Why & How it was built (Full Documentation)</a></p>
+        <p>🎓 3rd-Year B.Sc. Computer Science Mini Project · Apex Technologies HRMS</p>
       </footer>
     </div>
   );
