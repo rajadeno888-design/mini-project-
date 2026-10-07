@@ -197,29 +197,14 @@ async function startServer() {
       server: { middlewareMode: true },
       appType: 'spa',
     });
-
-    app.get('/', (_req, res) => {
-      res.sendFile(path.resolve(__dirname, 'about.html'));
-    });
-    app.get(['/about', '/about.html'], (_req, res) => {
-      res.sendFile(path.resolve(__dirname, 'about.html'));
-    });
-
     app.use(vite.middlewares);
   } else {
     const distPath = path.resolve(__dirname, 'dist');
+    app.use(express.static(distPath));
 
-    // Root route / and /about load the showcase landing page first
-    app.get(['/', '/about', '/about.html'], (_req, res) => {
+    app.get(['/about', '/about.html'], (_req, res) => {
       res.sendFile(path.resolve(distPath, 'about.html'));
     });
-
-    // App & login routes load the React application
-    app.get(['/login', '/app', '/dashboard'], (_req, res) => {
-      res.sendFile(path.resolve(distPath, 'index.html'));
-    });
-
-    app.use(express.static(distPath));
 
     app.get('*', (_req, res) => {
       res.sendFile(path.resolve(distPath, 'index.html'));
