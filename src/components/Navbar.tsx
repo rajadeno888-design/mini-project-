@@ -4,33 +4,21 @@ import {
   Building2,
   User,
   LogOut,
-  GraduationCap,
-  RotateCcw,
   ShieldCheck,
   ChevronDown,
-  Database,
 } from 'lucide-react';
-import { ProjectInfoModal } from './ProjectInfoModal';
 
 interface NavbarProps {
   onOpenLogin: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ onOpenLogin }) => {
-  const { currentUser, employees, loginAs, logout, resetToSampleData } = useLeave();
+  const { currentUser, employees, loginAs, logout } = useLeave();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showProjectModal, setShowProjectModal] = useState(false);
-  const [confirmReset, setConfirmReset] = useState(false);
 
   const handleQuickSwitch = (empId: string) => {
     loginAs(empId);
     setShowUserMenu(false);
-  };
-
-  const handleResetData = () => {
-    resetToSampleData();
-    setConfirmReset(false);
-    alert('System reset to initial sample data successfully.');
   };
 
   return (
@@ -68,47 +56,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenLogin }) => {
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
-            {/* DB Viewer */}
-            <a
-              href="http://localhost:4000"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all"
-              style={{ background: 'rgba(255,255,255,0.07)', color: '#93c5fd', border: '1px solid rgba(147,197,253,0.20)' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.14)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)')}
-              title="Open SQLite Database Viewer"
-            >
-              <Database className="w-3.5 h-3.5" />
-              <span>DB Viewer</span>
-            </a>
-
-            {/* Project Info */}
-            <button
-              onClick={() => setShowProjectModal(true)}
-              className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all"
-              style={{ background: 'rgba(255,255,255,0.07)', color: '#93c5fd', border: '1px solid rgba(147,197,253,0.20)' }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.14)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)')}
-              title="View Mini Project Details"
-            >
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>B.Sc. Mini Project</span>
-            </button>
-
-            {/* Reset */}
-            <button
-              onClick={() => setConfirmReset(true)}
-              className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all"
-              style={{ color: '#94a3b8' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.07)'; (e.currentTarget as HTMLElement).style.color = '#e2e8f0'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#94a3b8'; }}
-              title="Reset application to initial state"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset</span>
-            </button>
-
             {/* User menu */}
             {currentUser ? (
               <div className="relative">
@@ -201,21 +148,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenLogin }) => {
           </div>
         </div>
       </header>
-
-      <ProjectInfoModal isOpen={showProjectModal} onClose={() => setShowProjectModal(false)} />
-
-      {confirmReset && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4 animate-fade-in">
-          <div className="glass-card w-full max-w-sm p-6 space-y-4 animate-fade-up">
-            <h3 className="text-base font-bold text-slate-900">Reset Demo Data?</h3>
-            <p className="text-sm text-slate-500">This will restore all employees and leave requests to their initial sample state.</p>
-            <div className="flex justify-end gap-2">
-              <button onClick={() => setConfirmReset(false)} className="btn-secondary text-xs">Cancel</button>
-              <button onClick={handleResetData} className="btn-primary text-xs">Confirm Reset</button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };
