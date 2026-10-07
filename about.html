@@ -399,7 +399,7 @@
       <a href="#usecases">Use Cases</a>
       <a href="#database">Database</a>
     </div>
-    <button onclick="openLogin()" class="nav-cta" style="border:none;cursor:pointer;">🔐 Login</button>
+    <a href="/login" class="nav-cta" style="text-decoration:none;">🔐 Login</a>
   </nav>
 
   <!-- ─── HERO ─── -->
@@ -424,9 +424,9 @@
       </p>
 
       <div class="hero-actions fade-up delay-3">
-        <button onclick="openLogin()" class="btn-primary" style="border:none;cursor:pointer;">
+        <a href="/login" class="btn-primary" style="text-decoration:none;">
           🔐 Login to LeaveEase
-        </button>
+        </a>
         <a href="http://localhost:4000" target="_blank" class="btn-ghost">
           🗄️ View SQLite Database
         </a>
@@ -932,9 +932,9 @@
     <h2>Ready to Explore LeaveEase?</h2>
     <p>Launch the application on localhost or browse the database viewer directly.</p>
     <div style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap;">
-      <button onclick="openLogin()" class="btn-primary" style="font-size: 15px; padding: 16px 32px; border:none; cursor:pointer;">
+      <a href="/login" class="btn-primary" style="font-size: 15px; padding: 16px 32px; text-decoration:none;">
         🔐 Login to LeaveEase
-      </button>
+      </a>
       <a href="http://localhost:4000" target="_blank" class="btn-ghost" style="font-size: 15px; padding: 16px 32px;">
         🗄️ SQLite Database Viewer
       </a>
@@ -960,115 +960,6 @@
     </p>
     <p style="margin-top: 12px; color: #1e293b;">© 2026 LeaveEase. Department of Computer Science.</p>
   </footer>
-
-  <!-- ─── LOGIN MODAL ─── -->
-  <div class="modal-overlay" id="loginModal">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeLogin()">✕</button>
-
-      <div class="modal-logo">🏢</div>
-      <h2>Welcome to LeaveEase</h2>
-      <p class="modal-sub">Sign in with your company credentials to continue</p>
-
-      <!-- Demo quick-fill pills -->
-      <div style="font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px;">⚡ Quick Demo Login</div>
-      <div class="demo-pills">
-        <div class="demo-pill" id="pill-emp" onclick="fillDemo('employee')">
-          <div class="pill-icon">👤</div>
-          <div class="pill-label">Employee</div>
-          <div class="pill-sub">Rahul Sharma</div>
-        </div>
-        <div class="demo-pill" id="pill-hr" onclick="fillDemo('hr')">
-          <div class="pill-icon">🛡️</div>
-          <div class="pill-label">HR Admin</div>
-          <div class="pill-sub">Anita Desai</div>
-        </div>
-      </div>
-
-      <div id="loginError" class="modal-error">Invalid credentials. Please try again.</div>
-
-      <form onsubmit="handleLogin(event)">
-        <div class="input-group">
-          <label for="login-email">Email Address</label>
-          <input type="email" id="login-email" placeholder="e.g. rahul.sharma@apex.com" required />
-        </div>
-        <div class="input-group">
-          <label for="login-pass">Password</label>
-          <input type="password" id="login-pass" placeholder="Enter your password" required />
-        </div>
-        <button type="submit" class="login-btn">🔐 Sign In & Open Dashboard</button>
-      </form>
-
-      <p class="modal-hint">
-        This will sign you in and open the dashboard. Or <a href="/login" style="color: #60a5fa; text-decoration: underline;">go to Login Page →</a>
-      </p>
-    </div>
-  </div>
-
-  <script>
-    // Demo credentials matching the app
-    const demoUsers = {
-      employee: { email: 'rahul.sharma@apextech.com', password: 'emp123', name: 'Rahul Sharma' },
-      hr:       { email: 'anita.desai@apextech.com',  password: 'hr123',  name: 'Anita Desai'  }
-    };
-
-    function openLogin() {
-      document.getElementById('loginModal').classList.add('open');
-      document.body.style.overflow = 'hidden';
-      // Reset state
-      document.getElementById('loginError').classList.remove('show');
-      document.querySelectorAll('.demo-pill').forEach(p => p.className = 'demo-pill');
-    }
-
-    function closeLogin() {
-      document.getElementById('loginModal').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
-    // Close on overlay click
-    document.getElementById('loginModal').addEventListener('click', function(e) {
-      if (e.target === this) closeLogin();
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeLogin();
-    });
-
-    function fillDemo(role) {
-      const user = demoUsers[role];
-      document.getElementById('login-email').value = user.email;
-      document.getElementById('login-pass').value = user.password;
-      document.getElementById('loginError').classList.remove('show');
-
-      // Highlight selected pill
-      document.querySelectorAll('.demo-pill').forEach(p => p.className = 'demo-pill');
-      if (role === 'employee') {
-        document.getElementById('pill-emp').classList.add('active-emp');
-      } else {
-        document.getElementById('pill-hr').classList.add('active-hr');
-      }
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const pass  = document.getElementById('login-pass').value;
-
-      // Validate against demo credentials
-      const validUser = Object.values(demoUsers).find(u => u.email === email && u.password === pass);
-
-      if (validUser) {
-        // Store selected demo credentials in localStorage so LoginView can auto-login or prefill
-        localStorage.setItem('leaveease_demo_email', email);
-        localStorage.setItem('leaveease_demo_pass', pass);
-        // Redirect to login/dashboard app portal
-        window.location.href = '/login';
-      } else {
-        document.getElementById('loginError').classList.add('show');
-      }
-    }
-  </script>
 
 </body>
 </html>

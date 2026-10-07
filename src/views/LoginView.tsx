@@ -50,10 +50,20 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
     }, 600);
   };
 
-  const quickFill = (acc: typeof DEMO_ACCOUNTS[0]) => {
+  const quickLogin = (acc: typeof DEMO_ACCOUNTS[0]) => {
     setEmail(acc.email);
     setPassword(acc.password);
     setErrorMsg('');
+    setIsLoading(true);
+    setTimeout(() => {
+      const result = loginWithCredentials(acc.email, acc.password);
+      if (result.success) {
+        onSuccess();
+      } else {
+        setErrorMsg(result.message || 'Login failed.');
+        setIsLoading(false);
+      }
+    }, 300);
   };
 
   return (
@@ -186,8 +196,8 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
                   <button
                     key={acc.role}
                     type="button"
-                    onClick={() => quickFill(acc)}
-                    className="rounded-lg py-2 px-3 text-xs font-medium text-left transition-all"
+                    onClick={() => quickLogin(acc)}
+                    className="rounded-lg py-2 px-3 text-xs font-medium text-left transition-all hover:scale-[1.02] cursor-pointer"
                     style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0' }}
                     onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.12)')}
                     onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)')}
