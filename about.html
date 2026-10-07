@@ -1000,7 +1000,7 @@
       </form>
 
       <p class="modal-hint">
-        This will open the app at <a href="http://localhost:3000" target="_blank">localhost:3000</a>
+        This will sign you in and open the dashboard. Or <a href="/login" style="color: #60a5fa; text-decoration: underline;">go to Login Page →</a>
       </p>
     </div>
   </div>
@@ -1062,8 +1062,8 @@
         // Store selected demo credentials in localStorage so LoginView can auto-login or prefill
         localStorage.setItem('leaveease_demo_email', email);
         localStorage.setItem('leaveease_demo_pass', pass);
-        // Redirect to main portal on current host
-        window.location.href = '/';
+        // Redirect to login/dashboard app portal
+        window.location.href = '/login';
       } else {
         document.getElementById('loginError').classList.add('show');
       }
