@@ -55,7 +55,18 @@ export const LeaveProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   });
 
-  const [currentUser, setCurrentUser] = useState<Employee | null>(null);
+  const [currentUser, setCurrentUser] = useState<Employee | null>(() => {
+    try {
+      const storedId = localStorage.getItem(STORAGE_KEY_CURRENT_USER);
+      if (storedId) {
+        const found = employees.find((e) => e.id === storedId || e.employeeCode === storedId);
+        if (found) return found;
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  });
 
   // Save changes to localStorage
   useEffect(() => {
