@@ -955,8 +955,8 @@
     </div>
     <p>Built as a <strong style="color: #334155">3rd-Year B.Sc. Computer Science Mini Project</strong> · Apex Technologies (Demo Organization)</p>
     <p style="margin-top: 6px;">
-      <a href="http://localhost:3000" target="_blank">App → localhost:3000</a> &nbsp;·&nbsp;
-      <a href="http://localhost:4000" target="_blank">DB Viewer → localhost:4000</a>
+      <a href="/">🔐 Open LeaveEase HRMS Portal</a> &nbsp;·&nbsp;
+      <a href="/about.html">📖 Project Architecture & Showcase</a>
     </p>
     <p style="margin-top: 12px; color: #1e293b;">© 2026 LeaveEase. Department of Computer Science.</p>
   </footer>
@@ -1006,10 +1006,10 @@
   </div>
 
   <script>
-    // Demo credentials
+    // Demo credentials matching the app
     const demoUsers = {
-      employee: { email: 'rahul.sharma@apex.com', password: 'password123', name: 'Rahul Sharma' },
-      hr:       { email: 'anita.desai@apex.com',  password: 'password123', name: 'Anita Desai'  }
+      employee: { email: 'rahul.sharma@apextech.com', password: 'emp123', name: 'Rahul Sharma' },
+      hr:       { email: 'anita.desai@apextech.com',  password: 'hr123',  name: 'Anita Desai'  }
     };
 
     function openLogin() {
@@ -1059,9 +1059,11 @@
       const validUser = Object.values(demoUsers).find(u => u.email === email && u.password === pass);
 
       if (validUser) {
-        // Redirect to the running app
-        window.open('http://localhost:3000', '_blank');
-        closeLogin();
+        // Store selected demo credentials in localStorage so LoginView can auto-login or prefill
+        localStorage.setItem('leaveease_demo_email', email);
+        localStorage.setItem('leaveease_demo_pass', pass);
+        // Redirect to main portal on current host
+        window.location.href = '/';
       } else {
         document.getElementById('loginError').classList.add('show');
       }

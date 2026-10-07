@@ -201,6 +201,9 @@ async function startServer() {
   } else {
     const distPath = path.resolve(__dirname, 'dist');
     app.use(express.static(distPath));
+    app.get(['/about', '/about.html'], (_req, res) => {
+      res.sendFile(path.resolve(distPath, 'about.html'));
+    });
     app.get('*', (_req, res) => {
       res.sendFile(path.resolve(distPath, 'index.html'));
     });

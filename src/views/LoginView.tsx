@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLeave } from '../context/LeaveContext';
-import { Building2, KeyRound, AlertCircle, Lock, Mail, Sparkles, Shield } from 'lucide-react';
+import { Building2, KeyRound, AlertCircle, Lock, Mail, Sparkles, Shield, ExternalLink, BookOpen } from 'lucide-react';
 
 interface LoginViewProps {
   onSuccess: () => void;
@@ -17,6 +17,17 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('leaveease_demo_email');
+    const savedPass = localStorage.getItem('leaveease_demo_pass');
+    if (savedEmail && savedPass) {
+      setEmail(savedEmail);
+      setPassword(savedPass);
+      localStorage.removeItem('leaveease_demo_email');
+      localStorage.removeItem('leaveease_demo_pass');
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,16 +57,37 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 overflow-hidden relative"
+    <div className="min-h-screen flex flex-col items-center justify-between p-4 overflow-hidden relative"
       style={{ background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 45%, #312e81 100%)' }}>
 
       {/* Decorative blobs */}
-      <div className="absolute top-[-80px] left-[-80px] w-72 h-72 rounded-full opacity-20 blur-3xl"
+      <div className="absolute top-[-80px] left-[-80px] w-72 h-72 rounded-full opacity-20 blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, #3b82f6, transparent)' }} />
-      <div className="absolute bottom-[-80px] right-[-80px] w-96 h-96 rounded-full opacity-15 blur-3xl"
+      <div className="absolute bottom-[-80px] right-[-80px] w-96 h-96 rounded-full opacity-15 blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, #8b5cf6, transparent)' }} />
 
-      <div className="w-full max-w-md relative z-10 animate-fade-up">
+      {/* Top Navbar */}
+      <header className="w-full max-w-5xl flex items-center justify-between py-4 px-6 z-20">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)' }}>
+            <Building2 className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <span className="text-lg font-bold text-white tracking-tight">LeaveEase HRMS</span>
+            <span className="hidden sm:inline-block ml-2 text-xs text-blue-300">Apex Technologies</span>
+          </div>
+        </div>
+        <a href="/about.html"
+          className="flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-xl text-blue-200 hover:text-white transition-all"
+          style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(12px)' }}>
+          <BookOpen className="w-4 h-4 text-blue-400" />
+          <span>Project Architecture & About</span>
+          <ExternalLink className="w-3 h-3 opacity-60" />
+        </a>
+      </header>
+
+      <div className="w-full max-w-md relative z-10 animate-fade-up my-auto py-6">
         {/* Brand header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"
@@ -172,10 +204,16 @@ export const LoginView: React.FC<LoginViewProps> = ({ onSuccess }) => {
           <div className="px-8 py-3 flex items-center justify-between text-[11px]"
             style={{ background: 'rgba(0,0,0,0.20)', borderTop: '1px solid rgba(255,255,255,0.06)', color: '#64748b' }}>
             <span>Apex Technologies HRMS</span>
-            <span>Dept. of Computer Science</span>
+            <a href="/about.html" className="text-blue-400 hover:underline flex items-center gap-1">
+              <span>View About Page →</span>
+            </a>
           </div>
         </div>
       </div>
+
+      <footer className="w-full max-w-5xl py-3 text-center text-xs text-slate-400 z-20">
+        <p>🎓 3rd-Year B.Sc. Computer Science Mini Project · <a href="/about.html" className="text-blue-300 hover:underline font-medium">Read Why & How it was built (Full Documentation)</a></p>
+      </footer>
     </div>
   );
 };
